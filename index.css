@@ -8,5 +8,159 @@
 /* body tag styling */
 
 body {
-    font-family: "Trispace", Arial, Helvetica, sans-serif;
+    height: 100vh;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Bg image */
+.background-image-container{
+    /* Setting the body to image because */
+    /* we want a navbar contained within the image */
+    background:  rgba(24, 23, 24, 0.6) url("assets/background.jpg");
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size:cover;
+    /* adding an overlay to the background */
+    background-blend-mode: multiply;
+}
+
+
+/* navigation styling */
+
+.left-nav{
+    float: left;
+}
+
+.left-nav > li{
+    list-style: none;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.right-nav{
+    float: right;
+}
+
+#main-navigation{
+    margin: 20px 36px;
+}
+
+.right-nav > ul > li {
+    display: inline-block;
+    margin: 0 12px;
+}
+
+.nav-links{
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-decoration: none;
+    color: white;
+    transition: all .25s ease 0s;
+}
+
+.nav-links:hover{
+    font-weight: 700;
+    border-bottom: 3px solid #FFD706;
+}
+
+/* Main section */
+
+main{
+    width: 100%;
+    height: 100vh;
+    color: white;
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+main > h6 {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #bae8e8;
+    text-transform: uppercase;
+}
+main > h1{
+    font-size: 36px;
+    letter-spacing: 1px;
+    font-family: "Playfair Display", Arial, Helvetica, sans-serif;
+}
+
+#reserve-container {
+    width: auto;
+    text-align: left;
+    margin-top: 20px;
+    padding:36px 32px;
+    background: #fffffe;
+    color:#272343;
+    border-radius: 4px;
+    filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.3));
+}
+
+.select-container{
+    display: inline-block;
+    margin-right:24px;
+}
+
+.select-container > label{
+    font-weight: 600;
+}
+
+.select-container > select {
+    font-family: inherit;
+    margin-left:8px;
+    border: 1px solid #9E9EA7;
+    border-radius: 4px;
+    padding: 12px 24px;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: 6px;
+}
+
+.reserve-button{
+    font-family: inherit;
+    font-weight: 700;
+    margin-left: 20px;
+    background-color: #ffd803;
+    color: #272343;
+    border: 0;
+    border-radius: 6px;
+    padding:13px 24px;
+    transition: all 0.3s ease 0s;
+}
+
+.reserve-button:hover{
+    cursor: pointer;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.13);
+    transform: translateY(-2px);
 }
