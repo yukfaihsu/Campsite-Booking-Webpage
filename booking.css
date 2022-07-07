@@ -19,16 +19,16 @@ body {
 main{
     height: 100px;
 }
-#subHeader{
-    text-align: left;
-    align-items: left;
-    
-
+main li{
+    display: inline-block;
+    margin-right: 20px;
     color: black;
+    font-size: 30px;
 }
 
 section{
-    padding: 40px 40px;
+    padding-top: 40px;
+    padding-left: 40px;
 }
 section > h1{
     text-transform: uppercase;
