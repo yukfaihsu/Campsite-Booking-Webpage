@@ -4,9 +4,69 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Camp With Us!</title>
+    <!-- Favicon Updation -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="index.css"/>
+    <link rel="stylesheet" href="booking.css"/>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
+    <!-- Choose a camping site page -->
+    <!-- Header Section -->
+    <header>
+        <!-- Navigation -->
+        <nav id="main-navigation">
+           <!-- Left nav bar -->
+           <div class="left-nav">
+                <li>
+                    <a class="nav-links" href="index.html"><span class="material-icons">&#xe589;</span></a>
+                </li>
+           </div>
+           <!-- Right nav bar -->
+           <div class="right-nav">
+                <ul>
+                    <li><a class="nav-links" href="choose-camping.html">Reserve a site</a></li>
+                    <li><a class="nav-links" href="#">Resources</a></li>
+                    <li><a class="nav-links" href="#">Deals</a></li>
+                </ul> 
+           </div>
+        </nav>
+    </header>
+
+    <main>
+        <ul id="subHeader">
+            <li>Choose a camping site</li>
+            <li>Review and Pay</li>
+        </ul>
+    </main>
+
+    <section>
+        <h1>1. Site Information</h1>
+        <p>Site: 625</p>
+        <p>Equipment: Single Tent, 3 Tent, Trailer up to 18 ft</p>
+        <p>------------------------------ LEAVE  FOR IMAGE ------------------------------</p>
+        <p>Availability: 7 of 10 days</p>
+    </section>
     
+    <section>
+        <h1>2. Guest Details</h1>
+        <label for="numberOfNights">Number of Nights: </label>
+        <input type="number" max="10" min="0" name="numberOfNights" id="numberOfNights">
+        <input type="text" placeholder="Enter name" class="input-guest-details">
+        <input type="text" placeholder="Enter email" class="input-guest-details">
+
+        <button id="btn-reserve">Reserve</button>
+    </section>
+
+    <div></div>
 </body>
 </html>
