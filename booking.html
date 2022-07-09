@@ -44,8 +44,8 @@
 
     <main>
         <ul>
-            <li>1. Choose a camping site</li>
-            <li>2. Review and Pay</li>
+            <li id="other-page">1. Choose a camping site</li>
+            <li id="current-page">2. Review and Pay</li>
         </ul>
     </main>
 
@@ -64,13 +64,15 @@
     <section>
         <h1>2. Guest Details</h1>
         <label for="numberOfNights">Number of Nights: </label>
-        <input type="number" max="10" min="0" name="numberOfNights" id="numberOfNights">
+        <input type="number" max="10" min="1" name="numberOfNights" onKeyDown="return false" id="numberOfNights">
         <input type="text" placeholder="Enter name" class="input-guest-details">
         <input type="text" placeholder="Enter email" class="input-guest-details">
 
         <button id="btn-reserve">Reserve</button>
     </section>
 
-    <div></div>
+    <div id="receipt"></div>
 </body>
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/booking.js"></script>
 </html>
