@@ -147,7 +147,7 @@ main > h1{
     background-position-y: 6px;
 }
 
-.reserve-button{
+.yellow-primary-button{
     font-family: inherit;
     font-weight: 700;
     margin-left: 20px;
@@ -159,7 +159,7 @@ main > h1{
     transition: all 0.3s ease 0s;
 }
 
-.reserve-button:hover{
+.yellow-primary-button:hover{
     cursor: pointer;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.13);
     transform: translateY(-2px);
