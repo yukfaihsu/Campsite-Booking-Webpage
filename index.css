@@ -27,6 +27,12 @@ body {
 
 /* navigation styling */
 
+header{
+    top: 0;
+    width: 100%;
+    position: fixed;
+}
+
 .left-nav{
     float: left;
 }
