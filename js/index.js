@@ -4,7 +4,7 @@
 // ---------------------- Event Handler functions ----------------------
 const buttonClicked = () => {
     console.log(`Reserve button clicked!`)
-    window.location.href = "./choose-camping.html";
+    window.location.href = "./camping-site-page/choose-camping.html";
 }
 
 
