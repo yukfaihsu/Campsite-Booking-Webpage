@@ -28,6 +28,7 @@ body {
 /* navigation styling */
 
 header{
+    background-color: inherit;
     top: 0;
     width: 100%;
     position: fixed;

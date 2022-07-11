@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 </head>
 <body>
     <!-- Choose a camping site page -->
@@ -42,9 +42,31 @@
     </header>
     <main>
         <ul>
-            <li id="other-page">1. Choose a camping site</li>
-            <li id="current-page">2. Review and Pay</li>
+            <li class="active-link booking-links"><a href="#">1. Choose a camping site</a></li>
+            <li class="booking-links"><a href="../booking-page/booking.html">2. Review and Pay</a></li>
         </ul>
+        <br>
+        <br>
+        <!-- Filter Options -->
+        <div class="select-container">
+            <label for="equipment">Filter by equipment:</label>
+            <select name="equipment" id="equipment">
+              <option value="show-all">Show All</option>
+              <option value="single-tent">Single Tent</option>
+              <option value="3-tents">3 Tents</option>
+              <option value="trailer">Trailer up to 18ft</option>
+            </select>
+        </div>
+        <div class="select-container">
+            <label for="nights">Filter by available nights:</label>
+            <select name="nights" id="nights">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+        </div>
+        <!-- Camping Sites Results -->
+        <div id="camping-results-container"></div>
     </main>
 </body>
     <script src="../js/camping-site.js"></script>

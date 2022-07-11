@@ -9,17 +9,88 @@
 
 body {
     background-color: #151515;
-    height: 100vh;
     font-family: 'Source Sans Pro', sans-serif;
     color: #272343;
 }
 
 main{
+    height: auto;
+    text-align: left;
+    display: block;
     background-color: white;
     color: inherit;
     width: 70vw;
     margin: 0 auto;
     margin-top: 8%;
+    padding:32px 48px;
     border-radius: 8px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+main > ul{
+    list-style-type: none;
+}
+
+main > ul > li{
+   display: inline;
+   margin-right:20px; 
+}
+
+.booking-links{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #bbb;
+    font-weight: bold;
+}
+
+.booking-links > a {
+    color: inherit;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.booking-links > a:hover {
+    color: #151515;
+}
+
+.active-link{
+    color: #151515;
+    border-bottom: 3px solid #bae8e8;
+}
+
+#camp-card{
+    display: grid;
+    grid-template-columns: 30% 55% 15%;
+    margin:20px 0;
+    padding:24px 56px;
+    border-radius: 12px;
+    box-shadow: rgba(100, 100, 111, 0.08) 0px 7px 29px 0px;
+}
+
+#camp-card > div > img{
+    width: 200px;
+    object-fit: cover;
+    height: 120px;
+}
+
+.inline-icons-container > p{
+    display: inline;
+    width: fit-content;
+}
+
+.inline-icons-container > div {
+    display: inline-block;
+}
+
+.book-site-button{
+    height: fit-content;
+    margin: auto 0;
+}
+
+.green{
+    color: lightgreen;
+}
+
+.red{
+    color: red;
 }
