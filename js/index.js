@@ -5,7 +5,6 @@
 const buttonClicked = () => {
     console.log(`Reserve button clicked!`);
     window.location.href = "./camping-site-page/choose-camping.html";
-    
     const formFields = document.querySelectorAll("select");
 
     localStorage.setItem("equipment-type-from-screen-1", formFields[0].value);
