@@ -1,0 +1,172 @@
+/* Universal CSS reset */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body tag styling */
+
+body {
+    background-color: #151515;
+    height: 100vh;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* navigation styling */
+
+header{
+    background-color: inherit;
+    top: 0;
+    width: 100%;
+    position: fixed;
+}
+
+.left-nav{
+    float: left;
+}
+
+.left-nav > li{
+    list-style: none;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.right-nav{
+    float: right;
+}
+
+#main-navigation{
+    margin: 20px 36px;
+}
+
+.right-nav > ul > li {
+    display: inline-block;
+    margin: 0 12px;
+}
+
+.nav-links{
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-decoration: none;
+    color: white;
+    transition: all .25s ease 0s;
+}
+
+.nav-links:hover{
+    font-weight: 700;
+    border-bottom: 3px solid #FFD706;
+}
+
+/* Yellow button */
+
+.yellow-primary-button{
+    font-family: inherit;
+    font-weight: 700;
+    margin-left: 20px;
+    background-color: #ffd803;
+    color: #272343;
+    border: 0;
+    border-radius: 6px;
+    padding:13px 24px;
+    transition: all 0.3s ease 0s;
+}
+
+.yellow-primary-button:hover{
+    cursor: pointer;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.13);
+    transform: translateY(-2px);
+}
+
+/* Select Tags Styling */
+
+.select-container{
+    display: inline-block;
+    margin-right:24px;
+}
+
+.select-container > label{
+    font-weight: 600;
+}
+
+.select-container > select {
+    font-family: inherit;
+    margin-left:8px;
+    border: 1px solid #9E9EA7;
+    border-radius: 4px;
+    padding: 12px 24px;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: 6px;
+}
+
+/* Booking links Options */
+
+.booking-links{
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #bbb;
+    font-weight: bold;
+}
+
+.booking-links > a {
+    color: inherit;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.booking-links > a:hover {
+    color: #151515;
+}
+
+.active-link{
+    color: #151515;
+    border-bottom: 3px solid #bae8e8;
+}
+
+/* Inline-icons styling */
+.inline-icons-container > p{
+    display: inline;
+    width: fit-content;
+}
+
+.inline-icons-container > div {
+    display: inline-block;
+}
+
+
+
+.green{
+    color: lightgreen;
+}
+
+.red{
+    color: red;
+}

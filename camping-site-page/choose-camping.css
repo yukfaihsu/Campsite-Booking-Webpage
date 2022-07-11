@@ -1,18 +1,4 @@
-/* Universal CSS reset */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* body tag styling */
-
-body {
-    background-color: #151515;
-    font-family: 'Source Sans Pro', sans-serif;
-    color: #272343;
-}
-
+/* Main tag styling */
 main{
     height: auto;
     text-align: left;
@@ -36,28 +22,6 @@ main > ul > li{
    margin-right:20px; 
 }
 
-.booking-links{
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #bbb;
-    font-weight: bold;
-}
-
-.booking-links > a {
-    color: inherit;
-    transition: all 0.3s;
-    text-decoration: none;
-}
-
-.booking-links > a:hover {
-    color: #151515;
-}
-
-.active-link{
-    color: #151515;
-    border-bottom: 3px solid #bae8e8;
-}
-
 #camp-card{
     display: grid;
     grid-template-columns: 30% 55% 15%;
@@ -73,24 +37,7 @@ main > ul > li{
     height: 120px;
 }
 
-.inline-icons-container > p{
-    display: inline;
-    width: fit-content;
-}
-
-.inline-icons-container > div {
-    display: inline-block;
-}
-
 .book-site-button{
     height: fit-content;
     margin: auto 0;
-}
-
-.green{
-    color: lightgreen;
-}
-
-.red{
-    color: red;
 }

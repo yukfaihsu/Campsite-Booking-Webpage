@@ -8,7 +8,7 @@
     <!-- Favicon Updation -->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <!-- stylesheet -->
-    <link rel="stylesheet" href="../index.css"/>
+    <link rel="stylesheet" href="../styles.css"/>
     <link rel="stylesheet" href="booking.css"/>
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,13 +28,13 @@
            <!-- Left nav bar -->
            <div class="left-nav">
                 <li>
-                    <a class="nav-links" href="index.html"><span class="material-icons">&#xe589;</span></a>
+                    <a class="nav-links" href="../index.html"><span class="material-icons">&#xe589;</span></a>
                 </li>
            </div>
            <!-- Right nav bar -->
            <div class="right-nav">
                 <ul>
-                    <li><a class="nav-links" href="choose-camping.html">Reserve a site</a></li>
+                    <li><a class="nav-links" href="../camping-site-page/choose-camping.html">Reserve a site</a></li>
                     <li><a class="nav-links" href="#">Resources</a></li>
                     <li><a class="nav-links" href="#">Deals</a></li>
                 </ul> 
@@ -44,33 +44,33 @@
 
     <main>
         <ul>
-            <li id="other-page">1. Choose a camping site</li>
-            <li id="current-page">2. Review and Pay</li>
+            <li class="booking-links"><a href="../camping-site-page/choose-camping.html">1. Choose a camping site</a></li>
+            <li class="active-link booking-links"><a href="#">2. Review and Pay</a></li>
         </ul>
-    </main>
-
-    <section>
-        <h1>1. Site Information</h1>
-        <p>Site: <span>625</span></p>
-        <p>Equipment: <span>Single Tent, 3 Tent, Trailer up to 18 ft</span> </p>
-        <p>
-            <span class="material-icons">star</span>
-            <span class="material-icons">power</span>
-            <span class="material-icons">radio</span>
-        </p>
-        <p>Availability: <span>7</span> of 10 days</p>
-    </section>
+        <br>
+        <br>
+        <section>
+            <h1>1. Site Information</h1>
+            <p>Site: <span>625</span></p>
+            <p>Equipment: <span>Single Tent, 3 Tent, Trailer up to 18 ft</span> </p>
+            <p>
+                <span class="material-icons">star</span>
+                <span class="material-icons">power</span>
+                <span class="material-icons">radio</span>
+            </p>
+            <p>Availability: <span>7</span> of 10 days</p>
+        </section>
+        
+        <section>
+            <h1>2. Guest Details</h1>
+            <label for="numberOfNights">Number of Nights: </label>
+            <input type="number" max="10" min="1" name="numberOfNights" onKeyDown="return false" id="numberOfNights">
+            <input type="text" placeholder="Enter name" class="input-guest-details">
+            <input type="text" placeholder="Enter email" class="input-guest-details">
     
-    <section>
-        <h1>2. Guest Details</h1>
-        <label for="numberOfNights">Number of Nights: </label>
-        <input type="number" max="10" min="1" name="numberOfNights" onKeyDown="return false" id="numberOfNights">
-        <input type="text" placeholder="Enter name" class="input-guest-details">
-        <input type="text" placeholder="Enter email" class="input-guest-details">
-
-        <button id="btn-reserve">Reserve</button>
-    </section>
-
+            <button id="btn-reserve">Reserve</button>
+        </section>
+    </main>
     <div id="receipt"></div>
 </body>
     <!-- Javascript -->
