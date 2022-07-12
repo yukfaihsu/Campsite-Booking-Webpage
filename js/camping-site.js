@@ -8,6 +8,8 @@ const EQUIPMENT_TYPE_TRAILER = "trailer up to 18ft";
 const fileURL = "../camping-data.json";
 const equipmentTypeFromStorage = localStorage.getItem('equipment-type-from-screen-1');
 const availabilityFromStorage = localStorage.getItem('number-of-night-from-screen-1');
+let searchByEquipment = null;
+let searchByNights = null;
 
 // ---------------------- Helper methods ----------------------
 
@@ -19,12 +21,18 @@ const getCampingSiteList = async () => {
         jsonData = await responseFromAPI.json();
         console.log(`Data received from API: ${jsonData}`);
         console.log(`Equpment Type: ${equipmentTypeFromStorage}`)
-        if(equipmentTypeFromStorage != null && equipmentTypeFromStorage != "show all"){
+        if(equipmentTypeFromStorage != null && equipmentTypeFromStorage != "show all" && (searchByEquipment == null && searchByNights == null)){
             //some data is retrieved from local storage
             //so filter results
             const results = searchCampSitesUsingEquipment(jsonData, equipmentTypeFromStorage);
             displaySites(results); 
-        } else{
+        } else if(searchByEquipment != null){
+            //search using equipment
+            const results = searchCampSitesUsingEquipment(jsonData, searchByEquipment);
+            displaySites(results); 
+        } else if (searchByNights != null){
+
+        }else {
             //nothing found in localstorage OR equipment type stored in storage was show all
             //display all jsonData
             displaySites(jsonData)
@@ -120,7 +128,7 @@ const displaySites = (jsonData) => {
    
 }
 
-//helper func to filter jsonData
+//helper func to filter jsonData based on equipment
 const searchCampSitesUsingEquipment = (jsonData, equipmentType) => {
     const results = []
     console.log(`Equ ${equipmentType}`)
@@ -151,6 +159,13 @@ const searchCampSitesUsingEquipment = (jsonData, equipmentType) => {
                     results.push(jsonData[i]);
                 }
             break;
+            case "show all": 
+                if(!results.some(element => element.siteNumber === jsonData[i].siteNumber)){
+                    //to avoid adding duplicates
+                    results.push(jsonData[i]);
+                    console.log(`Results : ${results}`)
+                }
+            break;
         }
         }
     }
@@ -158,4 +173,36 @@ const searchCampSitesUsingEquipment = (jsonData, equipmentType) => {
     return results
 }
 
+//helper func to filter json data based on nights
+const searchCampSitesUsingNights = (jsonData, nights) => {
+    const results = []
+    console.log(`Nights ${equipmentType}`)
+    for (let i = 0; i < jsonData.length; i++) {
+
+    }
+    // return the results of the search as an array
+    return results
+}
+
+// ---------------------- Event Handler functions ----------------------
+const equipmentTypeChanged = (evt) => {
+    const elementClicked = evt.target
+    console.log(`Equipment container changed`)
+    console.log(elementClicked.value); // get selected VALUE
+    searchByEquipment = elementClicked.value;
+    getCampingSiteList();
+}
+
+const nightsTypeChanged = (evt) => {
+    const elementClicked = evt.target
+    console.log(elementClicked.value); // get selected VALUE
+    searchByNights = elementClicked.value;
+
+}
+
 // ---------------------- Event listeners ----------------------
+// listener for the filter equipment options container
+document.querySelector("#equipment").addEventListener("change", equipmentTypeChanged)
+
+ // listener for the filter equipment options container
+ document.querySelector("#nights").addEventListener("change", nightsTypeChanged)

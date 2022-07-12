@@ -22,16 +22,6 @@
     "image": "https://picsum.photos/id/1015/400"
     },
     {
-        "siteNumber": 123,
-        "equipment": [
-        "Trailer up to 18ft"
-        ],
-        "hasPower": false,
-        "isPremium": false,
-        "isRadioFree": false,
-        "image": "https://picsum.photos/id/1015/400"
-    },
-    {
     "siteNumber": 578,
     "equipment": [
     "Single Tent",
