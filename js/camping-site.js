@@ -11,6 +11,7 @@ const equipmentTypeFromStorage = localStorage.getItem('equipment-type-from-scree
 const availabilityFromStorage = localStorage.getItem('number-of-night-from-screen-1');
 let searchByEquipment = null;
 let searchByNights = null;
+const KEY_NAME_AVAILABLE_NIGHT = "availableNights";
 
 // ---------------------- Helper methods ----------------------
 
@@ -20,7 +21,7 @@ const getCampingSiteList = async () => {
     try {
         const responseFromAPI = await fetch(fileURL);
         jsonData = await responseFromAPI.json();
-        console.log(`Data received from API: ${jsonData}`);
+        console.log(`Data received from API: ${JSON.stringify(jsonData)}`);
         campSites.push(jsonData);
         createCampSitesList(jsonData);
         console.log(`Equpment Type: ${equipmentTypeFromStorage}`)
@@ -43,6 +44,16 @@ const getCampingSiteList = async () => {
     } catch (err) {
         console.log(`Error while fetching data from the API: ${err}`);
     }
+
+    if(localStorage.hasOwnProperty(KEY_NAME_AVAILABLE_NIGHT) === false){
+        let availableNightsForCampsite = {};
+        for(let key in jsonData){
+            const currCamp = jsonData[key];
+            
+            availableNightsForCampsite[currCamp.siteNumber] = 10;
+        }
+        localStorage.setItem(KEY_NAME_AVAILABLE_NIGHT, JSON.stringify(availableNightsForCampsite));
+    } 
 }
 
 getCampingSiteList();

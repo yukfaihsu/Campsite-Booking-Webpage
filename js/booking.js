@@ -1,4 +1,7 @@
 const campsiteFromLocalStorage = localStorage.getItem("currentCampingSite"); 
+const KEY_NAME = "availableNights"
+const availableNightsForCampsite = JSON.parse(localStorage.getItem(KEY_NAME));
+
 
 const availableNight = 8.999;
 const normalNightlyRate = 47.5;
@@ -7,7 +10,7 @@ const tax = 0.13;
 // Helper functions
 const calculateDailyCost = () => {
     let nightlyRate = normalNightlyRate;
-    const currCampsite = campsite[0];
+    const currCampsite = campsiteFromLocalStorage;
 
     if(currCampsite.isPremium === true){
         nightlyRate = nightlyRate * 1.2;
@@ -21,6 +24,7 @@ const calculateDailyCost = () => {
 
 const displayCampsiteInfo = () => {
     let currCampsite = JSON.parse(campsiteFromLocalStorage); //since we get a string from localstorage, we need to parse as an object
+    const nightsCurrCampsite = availableNightsForCampsite[currCampsite.siteNumber];
     let tentType = "";
     for(equip of currCampsite.equipment){
         tentType += `${equip}, `
@@ -45,8 +49,18 @@ const displayCampsiteInfo = () => {
         <p>Site: <span>${currCampsite.siteNumber}</span></p>
         <p>Equipment: <span>${tentType}</span></p>
         <p>${icons}</p>
-        <p>Availability: <span>${availableNight}</span> of 10 days</p>
+        <p>Availability: <span id="availability">${nightsCurrCampsite}</span> of 10 days</p>
     `;
+
+    document.querySelector("#selector-numberOfNights").innerHTML = 
+    `
+        <input type="number" max="${nightsCurrCampsite}" min="1" name="numberOfNights" onKeyDown="return false" id="numberOfNights"></input>
+    `;
+
+    if(document.querySelector("#availability").innerHTML === "0"){
+        document.querySelector("#btn-reserve").hidden = true;
+        document.querySelector("#receipt").innerHTML = `<h2>This campsite is fully booked.</h2>`
+    }
 }
 
 
@@ -84,7 +98,15 @@ const reservePressed = () => {
         <p>Tax: $${taxAmount.toFixed(2)}</p>
         <p>Total: $${total.toFixed(2)}</p>
     `;
-    
+
+    let currCampsite = JSON.parse(campsiteFromLocalStorage);
+    let nightsCurrCampsite = availableNightsForCampsite[currCampsite.siteNumber];
+    const newNumNight = nightsCurrCampsite - numNights;
+    availableNightsForCampsite[currCampsite.siteNumber] = newNumNight;
+    localStorage.setItem(KEY_NAME, JSON.stringify(availableNightsForCampsite));
+
+    document.querySelector("#btn-reserve").hidden = true;
+    document.querySelector("#availability").innerHTML = `${newNumNight}`;
 }
 document.addEventListener("DOMContentLoaded", displayCampsiteInfo);
 document.querySelector("#btn-reserve").addEventListener("click", reservePressed);
