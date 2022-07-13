@@ -1,6 +1,7 @@
 console.log("Camping site page!")
 
 // ---------------------- Variables ----------------------
+const campSites = [];
 const DEFAULT_AVAILABILITY = 10;
 const EQUIPMENT_TYPE_SINGLE = "single tent";
 const EQUIPMENT_TYPE_THREE_TENTS = "3 tents";
@@ -20,6 +21,8 @@ const getCampingSiteList = async () => {
         const responseFromAPI = await fetch(fileURL);
         jsonData = await responseFromAPI.json();
         console.log(`Data received from API: ${jsonData}`);
+        campSites.push(jsonData);
+        createCampSitesList(jsonData);
         console.log(`Equpment Type: ${equipmentTypeFromStorage}`)
         if(equipmentTypeFromStorage != null && equipmentTypeFromStorage != "show all" && (searchByEquipment == null && searchByNights == null)){
             //some data is retrieved from local storage
@@ -43,6 +46,15 @@ const getCampingSiteList = async () => {
 }
 
 getCampingSiteList();
+
+
+//helper func to create camp sites in our file
+const createCampSitesList = (jsonData) => {
+    for(let i=0; i <jsonData.length; i++){
+        let currentObject = jsonData[i];
+        campSites.push(currentObject);
+    }
+}
 
 //helper func to display camping data 
 const displaySites = (jsonData) => {
@@ -121,7 +133,7 @@ const displaySites = (jsonData) => {
                     ${isRadioFreeHTML}
                 </div>
             </div>
-            <button class="yellow-primary-button book-site-button">Book Site</button>
+            <button data-site-number=${currData.siteNumber} class="yellow-primary-button book-site-button">Book Site</button>
         </div>
     `
     }
@@ -184,6 +196,7 @@ const searchCampSitesUsingNights = (jsonData, nights) => {
     return results
 }
 
+
 // ---------------------- Event Handler functions ----------------------
 const equipmentTypeChanged = (evt) => {
     const elementClicked = evt.target
@@ -200,9 +213,32 @@ const nightsTypeChanged = (evt) => {
 
 }
 
+const bookButtonPressed = (evt) => {
+    const elementClicked = evt.target
+    if(elementClicked.tagName === "BUTTON"){
+        console.log(`Book Site button Pressed!`)
+        let currentSiteNumber = elementClicked.getAttribute("data-site-number")
+        console.log(`Site Number : ${currentSiteNumber}`);
+        console.log(`lenght: ${campSites.length}`)
+        for(let i=0; i<campSites.length; i++){
+            console.log(campSites[i])
+            if(campSites[i]["siteNumber"] == currentSiteNumber){
+                // Put the object into storage
+                console.log(`Site Found : ${campSites[i]}`);
+                localStorage.setItem("currentCampingSite", JSON.stringify(campSites[i]));
+                //go to booking page
+                window.location.href = "../booking-page/booking.html";
+            }
+        }
+    }
+}
+
 // ---------------------- Event listeners ----------------------
 // listener for the filter equipment options container
 document.querySelector("#equipment").addEventListener("change", equipmentTypeChanged)
 
- // listener for the filter equipment options container
+// listener for the filter equipment options container
  document.querySelector("#nights").addEventListener("change", nightsTypeChanged)
+
+//listeneer for the button
+document.querySelector("#camping-results-container").addEventListener("click", bookButtonPressed)

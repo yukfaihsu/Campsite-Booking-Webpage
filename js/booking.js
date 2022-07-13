@@ -1,18 +1,4 @@
-const campsite =
-[
-    {
-    "siteNumber": 625,
-    "equipment": [
-    "Single Tent",
-    " 3 Tents",
-    " Trailer up to 18ft"
-    ],
-    "hasPower": true,
-    "isPremium": false,
-    "isRadioFree": true,
-    "image": "https://picsum.photos/id/1020/400"
-    }
-];
+const campsiteFromLocalStorage = localStorage.getItem("currentCampingSite"); 
 
 const availableNight = 8.999;
 const normalNightlyRate = 47.5;
@@ -34,8 +20,7 @@ const calculateDailyCost = () => {
 }
 
 const displayCampsiteInfo = () => {
-    const currCampsite = campsite[0];
-
+    let currCampsite = JSON.parse(campsiteFromLocalStorage); //since we get a string from localstorage, we need to parse as an object
     let tentType = "";
     for(equip of currCampsite.equipment){
         tentType += `${equip}, `
