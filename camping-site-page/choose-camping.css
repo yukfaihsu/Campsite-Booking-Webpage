@@ -22,7 +22,7 @@ main > ul > li{
    margin-right:20px; 
 }
 
-#camp-card{
+.camp-card{
     display: grid;
     grid-template-columns: 30% 55% 15%;
     margin:20px 0;
@@ -31,7 +31,7 @@ main > ul > li{
     box-shadow: rgba(100, 100, 111, 0.08) 0px 7px 29px 0px;
 }
 
-#camp-card > div > img{
+.camp-card > div > img{
     width: 200px;
     object-fit: cover;
     height: 120px;

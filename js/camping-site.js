@@ -1,76 +1,55 @@
-console.log("Camping site page!")
+//console.log("Camping site page!")
 
 // ---------------------- Variables ----------------------
-const campSites = [];
+const fileURL = "../camping-data.json";
+const campSitesList = [];
+
 const DEFAULT_AVAILABILITY = 10;
+
 const EQUIPMENT_TYPE_SINGLE = "single tent";
 const EQUIPMENT_TYPE_THREE_TENTS = "3 tents";
 const EQUIPMENT_TYPE_TRAILER = "trailer up to 18ft"; 
-const fileURL = "../camping-data.json";
+
 const equipmentTypeFromStorage = localStorage.getItem('equipment-type-from-screen-1');
 const availabilityFromStorage = localStorage.getItem('number-of-night-from-screen-1');
-let searchByEquipment = null;
-let searchByNights = null;
+
 const KEY_NAME_AVAILABLE_NIGHT = "availableNights";
 
 // ---------------------- Helper methods ----------------------
 
 //Get Camping API data func
 const getCampingSiteList = async () => {
-    let jsonData;
     try {
         const responseFromAPI = await fetch(fileURL);
-        jsonData = await responseFromAPI.json();
-        console.log(`Data received from API: ${JSON.stringify(jsonData)}`);
-        campSites.push(jsonData);
-        createCampSitesList(jsonData);
-        console.log(`Equpment Type: ${equipmentTypeFromStorage}`)
-        if(equipmentTypeFromStorage != null && equipmentTypeFromStorage != "show all" && (searchByEquipment == null && searchByNights == null)){
-            //some data is retrieved from local storage
-            //so filter results
-            const results = searchCampSitesUsingEquipment(jsonData, equipmentTypeFromStorage);
-            displaySites(results); 
-        } else if(searchByEquipment != null){
-            //search using equipment
-            const results = searchCampSitesUsingEquipment(jsonData, searchByEquipment);
-            displaySites(results); 
-        } else if (searchByNights != null){
+        const jsonData = await responseFromAPI.json();
+        console.log(`Data received from API: ${jsonData}`);
+        if(localStorage.hasOwnProperty(KEY_NAME_AVAILABLE_NIGHT) === false){
+            let availableNightsForCampsite = {};
+            for(let key in jsonData){
+                const currCamp = jsonData[key];
 
-        }else {
-            //nothing found in localstorage OR equipment type stored in storage was show all
-            //display all jsonData
-            displaySites(jsonData)
-        }
+                availableNightsForCampsite[currCamp.siteNumber] = 10;
+            }
+            localStorage.setItem(KEY_NAME_AVAILABLE_NIGHT, JSON.stringify(availableNightsForCampsite));
+        } 
+        return jsonData;
     } catch (err) {
         console.log(`Error while fetching data from the API: ${err}`);
     }
-
-    if(localStorage.hasOwnProperty(KEY_NAME_AVAILABLE_NIGHT) === false){
-        let availableNightsForCampsite = {};
-        for(let key in jsonData){
-            const currCamp = jsonData[key];
-            
-            availableNightsForCampsite[currCamp.siteNumber] = 10;
-        }
-        localStorage.setItem(KEY_NAME_AVAILABLE_NIGHT, JSON.stringify(availableNightsForCampsite));
-    } 
 }
-
-getCampingSiteList();
-
 
 //helper func to create camp sites in our file
 const createCampSitesList = (jsonData) => {
     for(let i=0; i <jsonData.length; i++){
         let currentObject = jsonData[i];
-        campSites.push(currentObject);
+        campSitesList.push(currentObject);
     }
+    console.log(`Created list ${campSitesList}`)
 }
 
+
 //helper func to display camping data 
-const displaySites = (jsonData) => {
-    //1. TODO: check for data from previous page(Filter)
-    //2. display camp data(Show All)
+const displaySites = (campData) => {
     containerElement = document.querySelector("#camping-results-container")
                 
     // - clear the contents of the container
@@ -80,148 +59,214 @@ const displaySites = (jsonData) => {
     let hasPowerHTML = "";
     let isPremiumHTML = ""; 
     
-    if(jsonData.length === 0){
+    if(campData.length === 0){
+        //empty array of sites
         containerElement.innerHTML += `<p><span class="red">No CAMP SITE found</span></p>`
-    }
-
-    // - loop through json data
-    for(let i=0; i<jsonData.length; i++){
-    const currData = jsonData[i]
-    console.log(`Current Data: ${currData}`)
-    
-    let availabilityHTML = "";
-
-    if(currData.isRadioFree){
-        console.log(currData.isRadioFree)
-        isRadioFreeHTML = `<p><span class="material-icons">radio</span></p>`
     } else {
-        isRadioFreeHTML = ""
-    }
+        //loop through array
+        for(let i =0; i<campData.length; i++){
+            const currentSite = campData[i]
+            console.log(`Current Data: ${currentSite}`)
+            
+            let equipmentHTML = "";
+            for(equipmentType of currentSite.equipment){
+                equipmentHTML += `${equipmentType}, `
+            }
 
-    if(currData.isPremium){
-        isPremiumHTML = `<p><span class="material-icons">star</span></p>`
-    } else {
-        isPremiumHTML = ""
-    }
+            //splitting and displaying equipments array
+            equipmentHTML = equipmentHTML.substring(0, equipmentHTML.lastIndexOf(","));
 
-    if(currData.hasPower){
-        hasPowerHTML = `<p><span class="material-icons">power</span></p>`
-    } else {
-        hasPowerHTML = ""
-    }
+            let availabilityHTML = "";
+            
+            if(currentSite.isRadioFree){
+                //radio is free so add the radio icon
+                // console.log(currentSite.isRadioFree)
+                isRadioFreeHTML = `<p><span class="material-icons">radio</span></p>`
+            } else {
+                isRadioFreeHTML = ""
+            }
 
-    if(!currData.isRadioFree && !currData.isPremium && !currData.isRadioFree){
-        //none of these features are available
-        isPremiumHTML = "None"
-    }
+            if(currentSite.isPremium){
+                isPremiumHTML = `<p><span class="material-icons">star</span></p>`
+            } else {
+                isPremiumHTML = ""
+            }
 
-    //TODO: check for availability
-    for(let i=0; i<DEFAULT_AVAILABILITY; i++){
-        availabilityHTML += `
-            <div>
-                <p><span class="material-icons-outlined green">circle</span></p>
-            </div>
-        `
-    }
+            if(currentSite.hasPower){
+                hasPowerHTML = `<p><span class="material-icons">power</span></p>`
+            } else {
+                hasPowerHTML = ""
+            }
 
+            //in case no features exist, display None
+            if(!currentSite.isRadioFree && !currentSite.isPremium && !currentSite.isRadioFree){
+                //none of these features are available
+                isPremiumHTML = "None"
+            }
 
-    containerElement.innerHTML += `
-        <div id="camp-card">
-            <div>
-                <img src="${currData.image}" />
-            </div>
-            <div>
-                <h3>Site ${currData.siteNumber}</h3>
-                <p>Equipment: ${currData.equipment} </p>
-                <p>Availability: ${DEFAULT_AVAILABILITY} of ${DEFAULT_AVAILABILITY} days</p>
-                <div class="inline-icons-container">
-                    ${availabilityHTML}
+            //TODO: check for availability
+            //display availability
+            for(let i=0; i<DEFAULT_AVAILABILITY; i++){
+                availabilityHTML += `
+                    <div>
+                        <p><span class="material-icons-outlined green">circle</span></p>
+                    </div>
+                `
+            }
+
+            //add card results to container
+            containerElement.innerHTML += `
+                <div class="camp-card">
+                    <div>
+                        <img src="${currentSite.image}" />
+                    </div>
+                    <div>
+                        <h3>Site ${currentSite.siteNumber}</h3>
+                        <p>Equipment: ${equipmentHTML} </p>
+                        <p>Availability: ${DEFAULT_AVAILABILITY} of ${DEFAULT_AVAILABILITY} days</p>
+                        <div class="inline-icons-container">
+                            ${availabilityHTML}
+                        </div>
+                        <h4>Site Features: </h4>
+                        <div class="inline-icons-container">
+                            ${isPremiumHTML}
+                            ${hasPowerHTML}
+                            ${isRadioFreeHTML}
+                        </div>
+                    </div>
+                    <button data-site-number=${currentSite.siteNumber} class="yellow-primary-button book-site-button">Book Site</button>
                 </div>
-                <h4>Site Features: </h4>
-                <div class="inline-icons-container">
-                    ${isPremiumHTML}
-                    ${hasPowerHTML}
-                    ${isRadioFreeHTML}
-                </div>
-            </div>
-            <button data-site-number=${currData.siteNumber} class="yellow-primary-button book-site-button">Book Site</button>
-        </div>
-    `
+            `
+        }
     }
-   
 }
 
 //helper func to filter jsonData based on equipment
-const searchCampSitesUsingEquipment = (jsonData, equipmentType) => {
+const searchCampSitesUsingEquipment = (campData, equipmentType) => {
     const results = []
-    console.log(`Equ ${equipmentType}`)
-    for (let i = 0; i < jsonData.length; i++) {
-        for (let j=0 ; j < jsonData[i].equipment.length ; j++) {
-        const currentEquipmentType = jsonData[i].equipment[j].toLowerCase();
+    console.log(`Searching for ${equipmentType} equipment`)
+    console.log(campData.length)
+    for (let i = 0; i < campData.length; i++) {
+        const currentCampingSite = campData[i];
+        for (let j=0 ; j < campData[i].equipment.length ; j++) {
+        const currentEquipmentType = currentCampingSite.equipment[j].toLowerCase();
         switch(equipmentType){
             case EQUIPMENT_TYPE_SINGLE: 
-                //all
-                if(currentEquipmentType.includes(equipmentType)){
+                //all sites that include single tent
+                if(currentEquipmentType === EQUIPMENT_TYPE_SINGLE){
                     console.log(`Single Tent`)
-                    results.push(jsonData[i]);
+                    results.push(campData[i]);
                 }
             break;
             case EQUIPMENT_TYPE_THREE_TENTS: 
-                if(currentEquipmentType === EQUIPMENT_TYPE_THREE_TENTS || currentEquipmentType === EQUIPMENT_TYPE_TRAILER){
+                //sites that include either 3 tent or trailer
+                if((currentEquipmentType === EQUIPMENT_TYPE_THREE_TENTS ||
+                    currentEquipmentType === EQUIPMENT_TYPE_TRAILER)){
                     console.log(`3 tents`);
-                    if(!results.some(element => element.siteNumber === jsonData[i].siteNumber)){
+                    if(!results.some(element => element.siteNumber === campData[i].siteNumber)){
                         //to avoid adding duplicates
-                        results.push(jsonData[i]);
+                        results.push(campData[i]);
                         console.log(`Results : ${results}`)
+                    
                     }
-                }
+                }   
             break;
             case EQUIPMENT_TYPE_TRAILER: 
-                if(jsonData[i].equipment[0].toLowerCase() === EQUIPMENT_TYPE_TRAILER){
+                // sites that include trailer
+                if(currentEquipmentType === EQUIPMENT_TYPE_TRAILER){
                     console.log(`Trailer`)
-                    results.push(jsonData[i]);
+                    results.push(campData[i]);
                 }
             break;
             case "show all": 
-                if(!results.some(element => element.siteNumber === jsonData[i].siteNumber)){
+                if(!results.some(element => element.siteNumber === campData[i].siteNumber)){
                     //to avoid adding duplicates
-                    results.push(jsonData[i]);
+                    results.push(campData[i]);
                     console.log(`Results : ${results}`)
                 }
             break;
         }
         }
     }
-    // return the results of the search as an array
-    return results
+    displaySites(results);
 }
 
-//helper func to filter json data based on nights
-const searchCampSitesUsingNights = (jsonData, nights) => {
-    const results = []
-    console.log(`Nights ${equipmentType}`)
-    for (let i = 0; i < jsonData.length; i++) {
+const checkIfEquipmentInStorage = () => {
+    //check if there's equipment type in local storage
+    // console.log(campSitesList)
+    if(equipmentTypeFromStorage == null){
+        //show all the sites
+        displaySites(campSitesList);
+    } else if(campSitesList != null) {
+        //equipment type exists
+        console.log(equipmentTypeFromStorage)
+        //1. Change the filter value of equipment to what was stored
+        document.querySelector("#equipment").value = equipmentTypeFromStorage;
 
+        //2. Search using the equipment type and display
+        searchCampSitesUsingEquipment(campSitesList, equipmentTypeFromStorage); 
+
+        //3. Clear the equipment from storage
+        localStorage.removeItem("equipment-type-from-screen-1");
     }
+}
+
+
+//helper func to filter json data based on nights
+const searchCampSitesUsingNights = (campData, nights) => {
+    const results = []
+    console.log(`To search for ${nights} nights`)
+    //1. Change the filter value of equipment to what was stored
+    document.querySelector("#nights").value = nights;
+
+    for (let i = 0; i < campData.length; i++) {
+    }
+
+    //2. Clear the nights from storage
+    localStorage.removeItem("number-of-night-from-screen-1");
+
     // return the results of the search as an array
     return results
 }
 
 
 // ---------------------- Event Handler functions ----------------------
+
+const pageLoaded = () => {
+    console.log(`Camping Page Loaded!`)
+    
+    //programmatically create number of nights dropdown using default availablity
+    let container = document.querySelector("#nights");
+    for (let i = 1; i <= DEFAULT_AVAILABILITY; i++) {
+        let option = document.createElement("option");
+        option.value = i;
+        option.text = i;
+        container.appendChild(option);
+    }
+
+    //call the api func and getting the promise results
+    getCampingSiteList().then(data => {
+        console.log(`API data received successfully`)
+        
+        //console.log(data)
+        createCampSitesList(data)
+        
+        //check if there's equipment type in local storage
+        checkIfEquipmentInStorage();
+    });
+}
+
 const equipmentTypeChanged = (evt) => {
     const elementClicked = evt.target
     console.log(`Equipment container changed`)
     console.log(elementClicked.value); // get selected VALUE
-    searchByEquipment = elementClicked.value;
-    getCampingSiteList();
+    searchCampSitesUsingEquipment(campSitesList,elementClicked.value);
 }
 
 const nightsTypeChanged = (evt) => {
     const elementClicked = evt.target
     console.log(elementClicked.value); // get selected VALUE
-    searchByNights = elementClicked.value;
-
+    searchCampSitesUsingNights(campSitesList, elementClicked.value);
 }
 
 const bookButtonPressed = (evt) => {
@@ -230,13 +275,13 @@ const bookButtonPressed = (evt) => {
         console.log(`Book Site button Pressed!`)
         let currentSiteNumber = elementClicked.getAttribute("data-site-number")
         console.log(`Site Number : ${currentSiteNumber}`);
-        console.log(`lenght: ${campSites.length}`)
-        for(let i=0; i<campSites.length; i++){
-            console.log(campSites[i])
-            if(campSites[i]["siteNumber"] == currentSiteNumber){
+        console.log(`lenght: ${campSitesList.length}`)
+        for(let i=0; i<campSitesList.length; i++){
+            console.log(campSitesList[i])
+            if(campSitesList[i]["siteNumber"] == currentSiteNumber){
                 // Put the object into storage
-                console.log(`Site Found : ${campSites[i]}`);
-                localStorage.setItem("currentCampingSite", JSON.stringify(campSites[i]));
+                console.log(`Site Found : ${campSitesList[i]}`);
+                localStorage.setItem("currentCampingSite", JSON.stringify(campSitesList[i]));
                 //go to booking page
                 window.location.href = "../booking-page/booking.html";
             }
@@ -245,10 +290,14 @@ const bookButtonPressed = (evt) => {
 }
 
 // ---------------------- Event listeners ----------------------
+
+//listener for when page loads
+document.addEventListener("DOMContentLoaded", pageLoaded);
+
 // listener for the filter equipment options container
 document.querySelector("#equipment").addEventListener("change", equipmentTypeChanged)
 
-// listener for the filter equipment options container
+// listener for the filter available nights options container
  document.querySelector("#nights").addEventListener("change", nightsTypeChanged)
 
 //listeneer for the button
