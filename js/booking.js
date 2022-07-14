@@ -10,7 +10,7 @@ const tax = 0.13;
 // Helper functions
 const calculateDailyCost = () => {
     let nightlyRate = normalNightlyRate;
-    const currCampsite = campsiteFromLocalStorage;
+    const currCampsite = JSON.parse(campsiteFromLocalStorage);
 
     if(currCampsite.isPremium === true){
         nightlyRate = nightlyRate * 1.2;
