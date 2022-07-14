@@ -43,24 +43,30 @@
     </header>
 
     <main>
-        <ul>
-            <li class="booking-links"><a href="#">1. Choose a camping site</a></li>
-            <li class="active-link booking-links"><a href="#">2. Review and Pay</a></li>
-        </ul>
+        <div>
+            <ul>
+                <li class="booking-links"><a href="#">1. Choose a camping site</a></li>
+                <li class="active-link booking-links"><a href="#">2. Review and Pay</a></li>
+            </ul>
+        </div>
         <br>
         <br>
-        <section></section>
-        <br>
-        <br>
-        <section>
-            <h1>2. Guest Details</h1>
-            <label for="numberOfNights">Number of Nights: </label>
-            <span id="selector-numberOfNights"></span>
-            <input type="text" placeholder="Enter name" class="input-guest-details">
-            <input type="text" placeholder="Enter email" class="input-guest-details">
-            <button id="btn-reserve">Reserve</button>
-        </section>
-
+        
+        <div>
+            <!-- Camp Site Container -->
+            <div id="camp-site-info"></div>
+            <br>
+            <br>
+             <!-- Guest Details -->
+            <div>
+                <h1>2. Guest Details</h1>
+                <label for="numberOfNights">Number of Nights: </label>
+                <span id="selector-numberOfNights"></span>
+                <input type="text" placeholder="Enter name" class="input-guest-details">
+                <input type="text" placeholder="Enter email" class="input-guest-details">
+                <button class="yellow-primary-button book-site-button" id="btn-reserve">Reserve</button>
+            </div>
+        </div>
         <div id="receipt"></div>
     </main>
 </body>

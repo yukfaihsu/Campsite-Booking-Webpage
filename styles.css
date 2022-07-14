@@ -161,7 +161,10 @@ header{
     display: inline-block;
 }
 
-
+.book-site-button{
+    height: fit-content;
+    margin: auto 0;
+}
 
 .green{
     color: lightgreen;

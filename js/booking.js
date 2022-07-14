@@ -42,7 +42,7 @@ const displayCampsiteInfo = () => {
         icons += `<span class="material-icons">radio</span>`;
     }
 
-    let campsiteInfomation = document.querySelector("section");
+    let campsiteInfomation = document.querySelector("#camp-site-info");
     campsiteInfomation.innerHTML = 
     `
         <h1>1. Site Information</h1>
@@ -75,7 +75,7 @@ const reservePressed = () => {
         console.log("You must enter all form fields");
         document.querySelector("#receipt").innerHTML = 
         `
-            <p>You must enter all form fields</p>
+            <p class="red">You must enter all form fields</p>
         `;
         return;
     }
