@@ -105,8 +105,19 @@ const displaySites = (campData) => {
             }
 
             //TODO: check for availability
+            const availableNightsForAll = JSON.parse(localStorage.getItem(KEY_NAME_AVAILABLE_NIGHT));
+            const currCampsiteNight = availableNightsForAll[currentSite.siteNumber];
+
             //display availability
-            for(let i=0; i<DEFAULT_AVAILABILITY; i++){
+            for(let i=0; i<(DEFAULT_AVAILABILITY - currCampsiteNight); i++){
+                availabilityHTML += `
+                    <div>
+                        <p><span class="material-icons-outlined red">cancel</span></p>
+                    </div>
+                `
+            }
+            
+            for(let i=0; i<currCampsiteNight; i++){
                 availabilityHTML += `
                     <div>
                         <p><span class="material-icons-outlined green">circle</span></p>
@@ -191,23 +202,41 @@ const searchCampSitesUsingEquipment = (campData, equipmentType) => {
     displaySites(results);
 }
 
-const checkIfEquipmentInStorage = () => {
+const checkIfEquipmentAndNightsInStorage = () => {
     //check if there's equipment type in local storage
     // console.log(campSitesList)
-    if(equipmentTypeFromStorage == null){
+    if(equipmentTypeFromStorage == null && availabilityFromStorage == null){
         //show all the sites
         displaySites(campSitesList);
-    } else if(campSitesList != null) {
-        //equipment type exists
+    } else if(equipmentTypeFromStorage != null && availabilityFromStorage != null) {
+        //equipment and available night exist in local storage
         console.log(equipmentTypeFromStorage)
-        //1. Change the filter value of equipment to what was stored
+        console.log(availabilityFromStorage)
+        //1. Change the filter value of equipment and nights to what was stored
         document.querySelector("#equipment").value = equipmentTypeFromStorage;
+        document.querySelector("#nights").value = availabilityFromStorage;
 
-        //2. Search using the equipment type and display
-        searchCampSitesUsingEquipment(campSitesList, equipmentTypeFromStorage); 
+        //2. Search using both the equipment type and available nights type and display
+        let searchedCampsiteList = [];
+        const siteNumbersSuitable = []
+        const availableNightsForAll = JSON.parse(localStorage.getItem(KEY_NAME_AVAILABLE_NIGHT));
+        for (let key in availableNightsForAll){
+            if(availableNightsForAll[key] >= availabilityFromStorage){
+                siteNumbersSuitable.push(`${key}`);
+            }
+        }
+        siteNumbersSuitable.forEach(siteNum => {
+            for(let key in campSitesList){
+                if(campSitesList[key].siteNumber == siteNum){
+                    searchedCampsiteList.push(campSitesList[key]);
+                }
+            }
+        })
+        searchCampSitesUsingEquipment(searchedCampsiteList, equipmentTypeFromStorage);
 
         //3. Clear the equipment from storage
         localStorage.removeItem("equipment-type-from-screen-1");
+        localStorage.removeItem("number-of-night-from-screen-1");
     }
 }
 
@@ -215,18 +244,29 @@ const checkIfEquipmentInStorage = () => {
 //helper func to filter json data based on nights
 const searchCampSitesUsingNights = (campData, nights) => {
     const results = []
+    const siteNumbersSuitable = []
     console.log(`To search for ${nights} nights`)
-    //1. Change the filter value of equipment to what was stored
+    
     document.querySelector("#nights").value = nights;
-
-    for (let i = 0; i < campData.length; i++) {
+    const availableNightsForAll = JSON.parse(localStorage.getItem(KEY_NAME_AVAILABLE_NIGHT));
+    for (let key in availableNightsForAll){
+        if(availableNightsForAll[key] >= nights){
+            siteNumbersSuitable.push(`${key}`);
+        }
     }
 
-    //2. Clear the nights from storage
-    localStorage.removeItem("number-of-night-from-screen-1");
+    siteNumbersSuitable.forEach(siteNum => {
+        for(let key in campData){
+            if(campData[key].siteNumber == siteNum){
+                results.push(campData[key]);
+            }
+        }
+    })
 
-    // return the results of the search as an array
-    return results
+    console.log(JSON.stringify(siteNumbersSuitable));
+    displaySites(results);
+
+    document.querySelector("#equipment").value = "show all";
 }
 
 
@@ -252,7 +292,7 @@ const pageLoaded = () => {
         createCampSitesList(data)
         
         //check if there's equipment type in local storage
-        checkIfEquipmentInStorage();
+        checkIfEquipmentAndNightsInStorage();
     });
 }
 
@@ -261,6 +301,7 @@ const equipmentTypeChanged = (evt) => {
     console.log(`Equipment container changed`)
     console.log(elementClicked.value); // get selected VALUE
     searchCampSitesUsingEquipment(campSitesList,elementClicked.value);
+    document.querySelector("#nights").value = 1;
 }
 
 const nightsTypeChanged = (evt) => {
