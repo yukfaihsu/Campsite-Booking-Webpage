@@ -104,7 +104,7 @@ const displaySites = (campData) => {
                 isPremiumHTML = "None"
             }
 
-            //TODO: check for availability
+            // check for availability
             const availableNightsForAll = JSON.parse(localStorage.getItem(KEY_NAME_AVAILABLE_NIGHT));
             const currCampsiteNight = availableNightsForAll[currentSite.siteNumber];
 
@@ -126,28 +126,31 @@ const displaySites = (campData) => {
             }
 
             //add card results to container
-            containerElement.innerHTML += `
-                <div class="camp-card">
-                    <div>
-                        <img src="${currentSite.image}" />
-                    </div>
-                    <div>
-                        <h3>Site ${currentSite.siteNumber}</h3>
-                        <p>Equipment: ${equipmentHTML} </p>
-                        <p>Availability: ${DEFAULT_AVAILABILITY} of ${DEFAULT_AVAILABILITY} days</p>
-                        <div class="inline-icons-container">
-                            ${availabilityHTML}
+            if(currCampsiteNight > 0){
+                    //display site if available nights > 0
+                    containerElement.innerHTML += `
+                    <div class="camp-card">
+                        <div>
+                            <img src="${currentSite.image}" />
                         </div>
-                        <h4>Site Features: </h4>
-                        <div class="inline-icons-container">
-                            ${isPremiumHTML}
-                            ${hasPowerHTML}
-                            ${isRadioFreeHTML}
+                        <div>
+                            <h3>Site ${currentSite.siteNumber}</h3>
+                            <p>Equipment: ${equipmentHTML} </p>
+                            <p>Availability: ${currCampsiteNight} of ${DEFAULT_AVAILABILITY} days</p>
+                            <div class="inline-icons-container">
+                                ${availabilityHTML}
+                            </div>
+                            <h4>Site Features: </h4>
+                            <div class="inline-icons-container">
+                                ${isPremiumHTML}
+                                ${hasPowerHTML}
+                                ${isRadioFreeHTML}
+                            </div>
                         </div>
+                        <button data-site-number=${currentSite.siteNumber} class="yellow-primary-button book-site-button">Book Site</button>
                     </div>
-                    <button data-site-number=${currentSite.siteNumber} class="yellow-primary-button book-site-button">Book Site</button>
-                </div>
-            `
+                `
+            }
         }
     }
 }
